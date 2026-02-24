@@ -164,8 +164,7 @@ void drawInventoryHUD() {
   strokeWeight(2);
   rect(fhX, fhY, fhSize, fhSize, 10);
   noStroke();
-
-  blendMode(BLEND);
+  
   tint(255, 255, 255, freeHand ? 255 : 160);
   image(handIcon, fhX + 8, fhY + 8, fhSize - 16, fhSize - 16);
   noTint();
