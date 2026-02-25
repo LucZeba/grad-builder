@@ -24,13 +24,12 @@ void setupInventar() {
   handIcon = loadImage("hand.png");
   allItems.add(new InventoryItem("Auto crveni", 50, "Car.obj", 25, 0.0, 2, 0));
   allItems.add(new InventoryItem("Bonsai", 30, "Lowpoly_tree_sample.obj", 6, 0.74, 2, 5));
-  allItems.add(new InventoryItem("Velika kuća", 100, "Cyprys_House.obj", 25, 0.25, 6, 3));
-  //allItems.add(new InventoryItem("Mala kuća", 80, "house1.obj", 6, 0.0, 3, 3));
+  allItems.add(new InventoryItem("Velika kuća", 30, "Cyprys_House.obj", 25, 0.0, 6, 3));
   allItems.add(new InventoryItem("Bor", 30, "CartoonTree.obj", 15, 0.0, 2, 5));
   allItems.add(new InventoryItem("Ljuljacka", 20, "Swing.obj", 0.5, 0.0, 2, 4));
-  //allItems.add(new InventoryItem("Vlakic", 30, "vlakic.obj", 15, 0.0, 2, 4));
-  //allItems.add(new InventoryItem("Penjalica", 30, "penjanje.obj", 15, 0.0, 2, 4));
   allItems.add(new InventoryItem("Klupa", 30, "bench.obj", 0.3, 0.0, 1, 2));
+  allItems.add(new InventoryItem("Bamboo kuća", 30, "Bambo_House.obj", 20, 0.0, 5, 3));
+  allItems.add(new InventoryItem("Zgrada", 30, "building_04.obj", 70, -0.5, 8, 3));
 }
 
 class InventoryItem {

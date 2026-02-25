@@ -13,12 +13,11 @@ void setupModele() {
   modelCache.put("Lowpoly_tree_sample.obj", loadShape("Lowpoly_tree_sample.obj"));
   modelCache.put("Car.obj", loadShape("Car.obj"));
   modelCache.put("Cyprys_House.obj", loadShape("Cyprys_House.obj"));
-  //modelCache.put("house1.obj", loadShape("house1.obj"));
   modelCache.put("CartoonTree.obj", loadShape("CartoonTree.obj"));
   modelCache.put("Swing.obj", loadShape("Swing.obj"));
-  //modelCache.put("vlakic.obj", loadShape("vlakic.obj"));
-  //modelCache.put("penjanje.obj", loadShape("penjanje.obj"));
   modelCache.put("bench.obj", loadShape("bench.obj"));
+  modelCache.put("building_04.obj", loadShape("building_04.obj"));
+  modelCache.put("Bambo_House.obj", loadShape("Bambo_House.obj"));
   
   // Preview modeli — isti fileovi ali disableStyle
   for (String key : modelCache.keySet()) {
