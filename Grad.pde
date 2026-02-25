@@ -15,6 +15,7 @@ void setup() {
   setupInventar();
   setupModele();
   setupUI();
+  setupOblake();
 }
 
 void draw() {

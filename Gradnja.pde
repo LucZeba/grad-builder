@@ -143,6 +143,7 @@ void drawGradnja() {
   updateCamera();
   applyCamera();
   drawSun(400, 7000, -10500);
+  drawOblake();
   drawGround();
   drawPlacedObjects();
 

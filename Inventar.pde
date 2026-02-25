@@ -22,10 +22,15 @@ void setupInventar() {
   for (int i = 0; i < HOTBAR_SLOTS; i++) hotbarSlots[i] = -1;
   trashIcon = loadImage("trash.png");
   handIcon = loadImage("hand.png");
-  allItems.add(new InventoryItem("Auto", 50, "Car.obj", 25, 0.0, 2, 0));
-  allItems.add(new InventoryItem("Drvo", 30, "Lowpoly_tree_sample.obj", 6, 0.74, 2, 5));
-  allItems.add(new InventoryItem("Kuća", 100, "Cyprys_House.obj", 25, 0.0, 4, 3));
-  allItems.add(new InventoryItem("Kuća2", 80, "house1.obj", 6, 0.0, 3, 3));
+  allItems.add(new InventoryItem("Auto crveni", 50, "Car.obj", 25, 0.0, 2, 0));
+  allItems.add(new InventoryItem("Bonsai", 30, "Lowpoly_tree_sample.obj", 6, 0.74, 2, 5));
+  allItems.add(new InventoryItem("Velika kuća", 100, "Cyprys_House.obj", 25, 0.25, 6, 3));
+  //allItems.add(new InventoryItem("Mala kuća", 80, "house1.obj", 6, 0.0, 3, 3));
+  allItems.add(new InventoryItem("Bor", 30, "CartoonTree.obj", 15, 0.0, 2, 5));
+  allItems.add(new InventoryItem("Ljuljacka", 20, "Swing.obj", 0.5, 0.0, 2, 4));
+  //allItems.add(new InventoryItem("Vlakic", 30, "vlakic.obj", 15, 0.0, 2, 4));
+  //allItems.add(new InventoryItem("Penjalica", 30, "penjanje.obj", 15, 0.0, 2, 4));
+  allItems.add(new InventoryItem("Klupa", 30, "bench.obj", 0.3, 0.0, 1, 2));
 }
 
 class InventoryItem {

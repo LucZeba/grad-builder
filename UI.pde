@@ -2,11 +2,12 @@
 // UI - glavni izbornik, HUD overlay, upute
 // ============================================================
 
-PImage menuBg;
+PImage menuBg, dolar;
 boolean showHowToPlay = false;
 
 void setupUI() {
   menuBg = loadImage("city.png");
+  dolar = loadImage("dolar.png");
 }
 
 // ============================================================
@@ -171,12 +172,7 @@ void drawHUD() {
   stroke(195, 205, 218, 140);  strokeWeight(1);
   rect(14, 14, 140, 40, 12);  noStroke();
 
-  fill(200, 170, 60);
-  ellipse(38, 34, 22, 22);
-  fill(160, 130, 40);
-  textAlign(CENTER, CENTER);
-  textSize(12);
-  text("$", 38, 33);
+  image(dolar, 18, 12, 45, 45);
 
   fill(55, 70, 95);
   textAlign(LEFT, CENTER);
