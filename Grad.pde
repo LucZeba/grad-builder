@@ -3,10 +3,14 @@
 // ============================================================
 int gameState = 0;
 int coins = 1000;
+int buildMode = 0; // 0 = gradnja, 1 = pješački
+PImage buildIcon, walkIcon;
 
 void setup() {
   size(1200, 800, P3D);
   perspective(PI/3.0, float(width)/float(height), 1, 5000000);
+  buildIcon = loadImage("build.png");
+  walkIcon = loadImage("walk.png");
   setupCamera();
   setupInventar();
   setupModele();
@@ -34,6 +38,28 @@ void mousePressed() {
       placingDrag = false;
       return;
     }
+    int modeBtnSize = 40;
+    int modeBtnX = 14;
+    int modeBtnY = 62;
+    if (mouseX >= modeBtnX && mouseX <= modeBtnX + modeBtnSize &&
+        mouseY >= modeBtnY && mouseY <= modeBtnY + modeBtnSize) {
+      if (buildMode == 0) {
+        // Prebaci u pješački
+        buildMode = 1;
+        selectedObjectIndex = -1;
+        selectedPlacedIndex = -1;
+        previewRotation = 0;
+        placingDrag = false;
+        inventoryOpen = false;
+        camY = 80;
+        camAngleV = 0.3;
+      } else {
+        buildMode = 0;
+        camY = 940;
+        camAngleV = 0.1;
+      }
+      return;
+    }
     if (inventoryOpen) {
       clickedInventory(mouseX, mouseY);
       return;
@@ -43,15 +69,15 @@ void mousePressed() {
       prevMouseX = mouseX;
       prevMouseY = mouseY;
     }
-    if (mouseButton == LEFT) {
+    if (mouseButton == LEFT && buildMode == 0) {
       if (!clickedInventory(mouseX, mouseY)) {
         if (selectedObjectIndex >= 0 || selectedPlacedIndex >= 0) {
           InventoryItem item = getSelectedItem();
           if (item != null && lastGridValid) {
-            placingDrag = true;         
+            placingDrag = true;
           }
         } else {
-          mouseGradnja(); // free hand — klikni na objekt da ga podigneš
+          mouseGradnja();
         }
       }
     }
@@ -84,7 +110,7 @@ void mouseDragged() {
 }
 
 void mouseWheel(MouseEvent event) {
-  if (gameState == 1) {
+  if (gameState == 1 && buildMode == 0) {
     if (inventoryOpen) inventoryScroll(event.getCount());
     else {
       camY += event.getCount() * 10;
@@ -95,15 +121,17 @@ void mouseWheel(MouseEvent event) {
 
 void keyPressed() {
   if (gameState == 1) {
-    if (key == 'e' || key == 'E') {
-      inventoryOpen = !inventoryOpen;
-      if (inventoryOpen) rightMouseHeld = false;
-      return;
-    }
-    if (keyCode == ESC) {
-      selectedPlacedIndex = -1;
-      previewRotation = 0;
-      key = 0;
+    if (buildMode == 0) {
+      if (key == 'e' || key == 'E') {
+        inventoryOpen = !inventoryOpen;
+        if (inventoryOpen) rightMouseHeld = false;
+        return;
+      }
+      if (keyCode == ESC) {
+        selectedPlacedIndex = -1;
+        previewRotation = 0;
+        key = 0;
+      }
     }
     if (!inventoryOpen) keyPressedKamera();
   }

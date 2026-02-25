@@ -22,27 +22,29 @@ void setupInventar() {
   for (int i = 0; i < HOTBAR_SLOTS; i++) hotbarSlots[i] = -1;
   trashIcon = loadImage("trash.png");
   handIcon = loadImage("hand.png");
-  allItems.add(new InventoryItem("Auto", 50, "Car.obj", 25, 0.0, 2));
-  allItems.add(new InventoryItem("Drvo", 30, "Lowpoly_tree_sample.obj", 6, 0.74, 2));
-  allItems.add(new InventoryItem("Kuća", 100, "Cyprys_House.obj", 25, 0.0, 4));
-  allItems.add(new InventoryItem("Kuća2", 80, "house1.obj", 6, 0.0, 3));
+  allItems.add(new InventoryItem("Auto", 50, "Car.obj", 25, 0.0, 2, 0));
+  allItems.add(new InventoryItem("Drvo", 30, "Lowpoly_tree_sample.obj", 6, 0.74, 2, 5));
+  allItems.add(new InventoryItem("Kuća", 100, "Cyprys_House.obj", 25, 0.0, 4, 3));
+  allItems.add(new InventoryItem("Kuća2", 80, "house1.obj", 6, 0.0, 3, 3));
 }
 
 class InventoryItem {
   String naziv;
-  int    cijena;
+  int cijena;
   String objFile;
-  float  skala, yOffset;
-  int    gridVelicina;
+  float skala, yOffset;
+  int gridVelicina;
+  int kategorija;
 
   InventoryItem(String naziv, int cijena, String objFile,
-                float skala, float yOffset, int gridVelicina) {
-    this.naziv        = naziv;
-    this.cijena       = cijena;
-    this.objFile      = objFile;
-    this.skala        = skala;
-    this.yOffset      = yOffset;
+                float skala, float yOffset, int gridVelicina, int kategorija) {
+    this.naziv = naziv;
+    this.cijena = cijena;
+    this.objFile = objFile;
+    this.skala = skala;
+    this.yOffset = yOffset;
     this.gridVelicina = gridVelicina;
+    this.kategorija = kategorija;
   }
 }
 
@@ -224,93 +226,138 @@ void drawInventoryHUD() {
 // -------------------------------------------------------
 // INVENTORY PANEL
 // -------------------------------------------------------
-final int INV_W      = 540;
-final int INV_H      = 360;
-final int INV_ITEM_W = 112;
-final int INV_ITEM_H = 100;
-final int INV_COLS   = 4;
+
+// Kategorije
+final String[] KATEGORIJE = {
+  "Vozila", "Ceste", "Urbano", "Građevine", "Parkovi", "Priroda", "Jezera", "Mini igre"
+};
+int activeCategory = 0;
+
+// Dimenzije panela
+final int INV_W      = 700;
+final int INV_H      = 440;
+final int INV_ITEM_W = 120;
+final int INV_ITEM_H = 105;
+final int INV_COLS   = 5;
 final int INV_PAD    = 12;
+final int TAB_H      = 36;
 
 void drawInventoryPanel() {
-  // Blago zatamnjenje — samo iza panela, ne previše
-  fill(0, 0, 0, 80);
+  fill(0, 0, 0, 50);
   noStroke();
   rect(0, 0, width, height);
 
   int px = width/2 - INV_W/2;
-  int py = height/2 - INV_H/2 - 60;
+  int py = height/2 - INV_H/2 - 50;
 
-  // Sjena panela
-  fill(0, 0, 0, 60);
-  rect(px + 6, py + 8, INV_W, INV_H, 14);
+  // Sjena + panel
+  fill(0, 0, 0, 25);
+  rect(px + 5, py + 6, INV_W, INV_H, 20);
+  fill(235, 238, 242, 245);
+  stroke(195, 205, 218, 160);  strokeWeight(1);
+  rect(px, py, INV_W, INV_H, 18);  noStroke();
 
-  // Panel pozadina
-  fill(245, 245, 252, 230);
-  stroke(200, 200, 215);
-  strokeWeight(1);
-  rect(px, py, INV_W, INV_H, 12);
-
-  // Naslov traka
-  fill(50, 50, 70, 240);
-  noStroke();
-  rect(px, py, INV_W, 44, 12, 12, 0, 0);
-
-  fill(255, 255, 255);
+  // Naslov
+  fill(55, 75, 110);
   textAlign(LEFT, CENTER);
-  textSize(15);
-  text("Inventar", px + 18, py + 22);
+  textSize(18);
+  text("Inventar", px + 20, py + 24);
 
-  fill(180, 180, 200);
+  fill(150, 165, 185);
   textAlign(RIGHT, CENTER);
   textSize(11);
-  text("E — zatvori", px + INV_W - 14, py + 22);
+  text("E — zatvori", px + INV_W - 16, py + 24);
 
   // Separator
-  fill(190, 190, 210);
-  rect(px + 12, py + 44, INV_W - 24, 1);
+  fill(175, 190, 210, 120);
+  rect(px + 14, py + 46, INV_W - 28, 2, 1);
 
-  // Items
-  int contentY = py + 52;
-  int contentH = INV_H - 62;
+  // ---------- Tabovi ----------
+  int tabY = py + 54;
+  int tabX = px + 14;
 
+  for (int i = 0; i < KATEGORIJE.length; i++) {
+    textSize(11);
+    int tw = (int) textWidth(KATEGORIJE[i]) + 24;
+    boolean hover = (mouseX >= tabX && mouseX <= tabX + tw &&
+                     mouseY >= tabY && mouseY <= tabY + TAB_H);
+    boolean active = (i == activeCategory);
+
+    if (active) {
+      fill(65, 90, 135, 220);
+      stroke(85, 115, 165, 180);
+    } else if (hover) {
+      fill(210, 218, 230, 200);
+      stroke(185, 195, 215, 150);
+    } else {
+      fill(225, 230, 238, 160);
+      stroke(200, 210, 222, 120);
+    }
+    strokeWeight(1);
+    rect(tabX, tabY, tw, TAB_H, 8);  noStroke();
+
+    fill(active ? color(240, 243, 248) : color(70, 85, 110));
+    textAlign(CENTER, CENTER);
+    textSize(11);
+    text(KATEGORIJE[i], tabX + tw/2, tabY + TAB_H/2);
+
+    tabX += tw + 6;
+  }
+
+  // ---------- Stavke ----------
+  int contentY = tabY + TAB_H + 14;
+  int contentH = py + INV_H - contentY - 40;
+
+  ArrayList<Integer> filtered = new ArrayList<Integer>();
   for (int i = 0; i < allItems.size(); i++) {
-    int col = i % INV_COLS;
-    int row = i / INV_COLS;
+    if (allItems.get(i).kategorija == activeCategory) filtered.add(i);
+  }
+
+  if (filtered.size() == 0) {
+    fill(150, 165, 185);
+    textAlign(CENTER, CENTER);
+    textSize(13);
+    text("Uskoro dolazi!", px + INV_W/2, contentY + contentH/2);
+  }
+
+  for (int fi = 0; fi < filtered.size(); fi++) {
+    int itemIdx = filtered.get(fi);
+    int col = fi % INV_COLS;
+    int row = fi / INV_COLS;
     int ix = px + INV_PAD + col * (INV_ITEM_W + INV_PAD);
     int iy = contentY + INV_PAD + row * (INV_ITEM_H + INV_PAD) - inventoryScrollY;
 
     if (iy + INV_ITEM_H < contentY || iy > contentY + contentH) continue;
 
-    // Item kartica
-    fill(255, 255, 255, 220);
-    stroke(210, 210, 225);
+    boolean hover = (mouseX >= ix && mouseX <= ix + INV_ITEM_W &&
+                     mouseY >= iy && mouseY <= iy + INV_ITEM_H);
+    fill(hover ? color(215, 222, 235, 230) : color(245, 247, 250, 210));
+    stroke(hover ? color(85, 115, 165, 160) : color(200, 210, 222, 130));
     strokeWeight(1);
-    rect(ix, iy, INV_ITEM_W, INV_ITEM_H, 8);
-    noStroke();
+    rect(ix, iy, INV_ITEM_W, INV_ITEM_H, 10);  noStroke();
 
     // Ikona zona
-    fill(235, 235, 245);
-    rect(ix + 8, iy + 8, INV_ITEM_W - 16, INV_ITEM_H - 40, 5);
+    fill(220, 228, 238, 130);
+    rect(ix + 10, iy + 10, INV_ITEM_W - 20, INV_ITEM_H - 44, 6);
 
-    InventoryItem item = allItems.get(i);
+    InventoryItem item = allItems.get(itemIdx);
 
     // Naziv
-    fill(40, 40, 60);
+    fill(55, 70, 95);
     textAlign(CENTER, CENTER);
-    textSize(12);
+    textSize(11);
     text(item.naziv, ix + INV_ITEM_W/2, iy + INV_ITEM_H - 24);
 
     // Cijena
-    fill(160, 130, 30);
+    fill(170, 140, 55);
     textSize(10);
-    text(item.cijena + " $", ix + INV_ITEM_W/2, iy + INV_ITEM_H - 11);
+    text(item.cijena + " $", ix + INV_ITEM_W/2, iy + INV_ITEM_H - 10);
   }
 
-  // Uputa na dnu panela
-  fill(150, 150, 170);
+  fill(155, 168, 185);
   textAlign(CENTER, BOTTOM);
   textSize(10);
-  text("Povuci objekt u slot dolje  •  klikni slot za odabir", px + INV_W/2, py + INV_H - 7);
+  text("Povuci objekt u slot dolje  •  klikni slot za odabir", px + INV_W/2, py + INV_H - 8);
 }
 
 // -------------------------------------------------------
@@ -355,6 +402,23 @@ boolean clickedInventory(int mx, int my) {
       }
     }
     
+    // Klik na kategoriju tab
+    int tabY = (height/2 - INV_H/2 - 50) + 54;
+    int tabX = (width/2 - INV_W/2) + 14;
+    if (my >= tabY && my <= tabY + TAB_H) {
+      int tx = tabX;
+      for (int i = 0; i < KATEGORIJE.length; i++) {
+        textSize(11);
+        int tw = (int) textWidth(KATEGORIJE[i]) + 24;
+        if (mx >= tx && mx <= tx + tw) {
+          activeCategory = i;
+          inventoryScrollY = 0;
+          return true;
+        }
+        tx += tw + 6;
+      }
+    }
+    
     // Provjeri drag s hotbar slota
     for (int i = 0; i < HOTBAR_SLOTS; i++) {
       if (hotbarSlots[i] == -1) continue;
@@ -371,15 +435,22 @@ boolean clickedInventory(int mx, int my) {
     
     // Klik na inventory panel item
     int px = width/2 - INV_W/2;
-    int py = height/2 - INV_H/2 - 60;
-    int contentY = py + 52;
+    int py = height/2 - INV_H/2 - 50;
+    int contentY = py + 54 + TAB_H + 14;
+    
+    ArrayList<Integer> filtered = new ArrayList<Integer>();
     for (int i = 0; i < allItems.size(); i++) {
-      int col = i % INV_COLS;
-      int row = i / INV_COLS;
+      if (allItems.get(i).kategorija == activeCategory) filtered.add(i);
+    }
+    
+    for (int fi = 0; fi < filtered.size(); fi++) {
+      int itemIdx = filtered.get(fi);
+      int col = fi % INV_COLS;
+      int row = fi / INV_COLS;
       int ix = px + INV_PAD + col * (INV_ITEM_W + INV_PAD);
       int iy = contentY + INV_PAD + row * (INV_ITEM_H + INV_PAD) - inventoryScrollY;
       if (mx >= ix && mx <= ix + INV_ITEM_W && my >= iy && my <= iy + INV_ITEM_H) {
-        draggingFromInventory = i;
+        draggingFromInventory = itemIdx;
         draggingFromHotbar    = -1;
         isDragging            = true;
         dragMouseX = mx;
@@ -449,6 +520,15 @@ void inventoryMouseReleased(int mx, int my) {
 void inventoryScroll(float amount) {
   if (!inventoryOpen) return;
   inventoryScrollY += (int)(amount * 30);
-  int maxScroll = max(0, (int)ceil(float(allItems.size()) / INV_COLS) * (INV_ITEM_H + INV_PAD) - 260);
+
+  // Prebroj stavke u aktivnoj kategoriji
+  int count = 0;
+  for (int i = 0; i < allItems.size(); i++) {
+    if (allItems.get(i).kategorija == activeCategory) count++;
+  }
+  int rows = (int) ceil(float(count) / INV_COLS);
+  int contentH = INV_H - (54 + TAB_H + 14) - 40; // vidljivi prostor za stavke
+  int totalH = rows * (INV_ITEM_H + INV_PAD);
+  int maxScroll = max(0, totalH - contentH);
   inventoryScrollY = constrain(inventoryScrollY, 0, maxScroll);
 }

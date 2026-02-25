@@ -16,18 +16,17 @@ void setupCamera() {}
 void applyCamera() {
   float dirX = sin(camAngleH);
   float dirZ = -cos(camAngleH);
-  
+
   float lookX = camX + dirX * 100;
-  float lookY = camY - camAngleV * 100; // camAngleV pozitivan -> lookY < camY -> gleda prema dolje
+  float lookY = camY - camAngleV * 100;
   float lookZ = camZ - dirZ * 100;
-  
+
   camera(camX, camY, camZ, lookX, lookY, lookZ, 0, -1, 0);
 }
 
 void updateCamera() {
-  // Isti smjer kao applyCamera: dirX = sin(H), lookZ = camZ - dirZ*100 gdje dirZ = -cos(H)
-  float fw_x = sin(camAngleH);   // naprijed X
-  float fw_z = cos(camAngleH);   // naprijed Z (negativan jer applyCamera koristi -dirZ)
+  float fw_x = sin(camAngleH);
+  float fw_z = cos(camAngleH);
 
   if (wPressed) { camX += fw_x * moveSpeed; camZ += fw_z * moveSpeed; }
   if (sPressed) { camX -= fw_x * moveSpeed; camZ -= fw_z * moveSpeed; }
@@ -36,6 +35,11 @@ void updateCamera() {
 
   camX = constrain(camX, -4200, 4200);
   camZ = constrain(camZ, -4200, 4200);
+
+  // U pješačkom modu fiksna visina
+  if (buildMode == 1) {
+    camY = 40;
+  }
 }
 
 void mouseDraggedKamera() {
@@ -43,8 +47,8 @@ void mouseDraggedKamera() {
     float dx = mouseX - prevMouseX;
     float dy = mouseY - prevMouseY;
     camAngleH += dx * mouseSensitivity;
-    camAngleV += dy * mouseSensitivity * 0.5; // minus = povlačenje gore = gleda više prema dolje
-    camAngleV = constrain(camAngleV, 0.05, 1.5); // samo pozitivne vrijednosti
+    camAngleV += dy * mouseSensitivity * 0.5;
+    camAngleV = constrain(camAngleV, -1.5, 1.5);
     prevMouseX = mouseX;
     prevMouseY = mouseY;
   }

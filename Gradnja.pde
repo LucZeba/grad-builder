@@ -146,8 +146,8 @@ void drawGradnja() {
   drawGround();
   drawPlacedObjects();
 
-  if (!inventoryOpen) {
-    // Ažuriraj grid pod mišem (samo kad ne dragamo — pozicija se fiksira na klik)
+  // Gradnja logika — samo u build modu
+  if (buildMode == 0 && !inventoryOpen) {
     if (!placingDrag) {
       int[] grid = getGridUnderMouse();
       if (grid != null) {
@@ -159,7 +159,6 @@ void drawGradnja() {
       }
     }
 
-    // Rotacija prema mišu dok dragamo — atan2 u world-space
     if (placingDrag && lastGridValid) {
       float[] worldMouse = getWorldUnderMouse();
       if (worldMouse != null) {
@@ -176,7 +175,8 @@ void drawGradnja() {
   }
 
   drawHUD();
-  drawInventoryHUD();
+  // Hotbar i inventory samo u build modu
+  if (buildMode == 0) drawInventoryHUD();
 }
 
 // Crta sve postavljene objekte
