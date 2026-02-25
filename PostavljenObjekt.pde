@@ -5,6 +5,10 @@
 HashMap<String, PShape> modelCache = new HashMap<String, PShape>();
 HashMap<String, PShape> previewCache = new HashMap<String, PShape>();
 
+// ============================================================
+// MODELI (preview i postavljeni)
+// ============================================================
+
 void setupModele() {
   modelCache.put("Lowpoly_tree_sample.obj", loadShape("Lowpoly_tree_sample.obj"));
   modelCache.put("Car.obj", loadShape("Car.obj"));
@@ -26,6 +30,10 @@ PShape getPreviewModel(String objFile) {
 PShape getModel(String objFile) {
   return modelCache.get(objFile);
 }
+
+// ============================================================
+// KLASA ZA OBJEKTE
+// ============================================================
 
 class PlacedObject {
   int typeIndex;

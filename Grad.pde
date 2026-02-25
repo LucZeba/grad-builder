@@ -1,20 +1,16 @@
 // ============================================================
-// STANJA IGRE
-// 0 = glavni izbornik
-// 1 = gradnja
-// 2 = mini igrica (za kasnije)
+// SETUPOVI I EVENTI
 // ============================================================
 int gameState = 0;
 int coins = 1000;
-float placingCenterScreenX, placingCenterScreenY;
-float placingStartAngle;
 
 void setup() {
   size(1200, 800, P3D);
-  perspective(PI/3.0, float(width)/float(height), 1, 10000);
+  perspective(PI/3.0, float(width)/float(height), 1, 5000000);
   setupCamera();
   setupInventar();
   setupModele();
+  setupUI();
 }
 
 void draw() {
@@ -22,13 +18,22 @@ void draw() {
   switch(gameState) {
     case 0: drawMenu(); break;
     case 1: drawGradnja(); break;
-    case 2: drawIgrica(); break;
   }
 }
 
 void mousePressed() {
   if (gameState == 0) mouseMenu();
   if (gameState == 1) {
+    int mbW = 80, mbH = 34, mbX = width - mbW - 14, mbY = 14;
+    if (mouseX >= mbX && mouseX <= mbX + mbW &&
+        mouseY >= mbY && mouseY <= mbY + mbH) {
+      gameState = 0;
+      selectedObjectIndex = -1;
+      selectedPlacedIndex = -1;
+      previewRotation = 0;
+      placingDrag = false;
+      return;
+    }
     if (inventoryOpen) {
       clickedInventory(mouseX, mouseY);
       return;
@@ -43,11 +48,7 @@ void mousePressed() {
         if (selectedObjectIndex >= 0 || selectedPlacedIndex >= 0) {
           InventoryItem item = getSelectedItem();
           if (item != null && lastGridValid) {
-            placingDrag = true;
-            if (item != null && lastGridValid) {
-              placingDrag = true;
-              placingStartRotation = previewRotation;
-            }
+            placingDrag = true;         
           }
         } else {
           mouseGradnja(); // free hand — klikni na objekt da ga podigneš
@@ -56,8 +57,6 @@ void mousePressed() {
     }
   }
 }
-
-void mouseMoved() {}
 
 void mouseReleased() {
   if (gameState == 1) {
@@ -100,11 +99,6 @@ void keyPressed() {
       inventoryOpen = !inventoryOpen;
       if (inventoryOpen) rightMouseHeld = false;
       return;
-    }
-    if (key == 'r' || key == 'R') {
-      if (selectedObjectIndex >= 0 || selectedPlacedIndex >= 0) {
-        previewRotation += radians(30);
-      }
     }
     if (keyCode == ESC) {
       selectedPlacedIndex = -1;

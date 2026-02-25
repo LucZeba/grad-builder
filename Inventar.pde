@@ -2,7 +2,6 @@
 // INVENTAR
 // ============================================================
 
-ArrayList<InventoryItem> inventory = new ArrayList<InventoryItem>();
 ArrayList<InventoryItem> allItems  = new ArrayList<InventoryItem>();
 
 int   HOTBAR_SLOTS = 8;
@@ -27,7 +26,6 @@ void setupInventar() {
   allItems.add(new InventoryItem("Drvo", 30, "Lowpoly_tree_sample.obj", 6, 0.74, 2));
   allItems.add(new InventoryItem("Kuća", 100, "Cyprys_House.obj", 25, 0.0, 4));
   allItems.add(new InventoryItem("Kuća2", 80, "house1.obj", 6, 0.0, 3));
-  inventory = allItems;
 }
 
 class InventoryItem {

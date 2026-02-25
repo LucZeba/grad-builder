@@ -1,5 +1,5 @@
 // ============================================================
-// OKOLINA - tlo, sunce, nebo (nebo je background u draw())
+// OKOLINA - tlo, sunce, nebo
 // ============================================================
 
 void drawGround() {
@@ -26,20 +26,9 @@ void drawSun(float x, float y, float z) {
   pushMatrix();
   translate(x, y, z);
 
-  fill(255, 255, 0);
+  fill(255, 230, 0);
   noStroke();
-  sphere(150);
-
-  fill(255, 220, 0);
-  int numRays = 12;
-  for (int i = 0; i < numRays; i++) {
-    float angle = (TWO_PI / numRays) * i;
-    pushMatrix();
-    rotateZ(angle);
-    translate(400, 0, 0);
-    box(100, 15, 15);
-    popMatrix();
-  }
+  sphere(5000);
 
   popMatrix();
 }
