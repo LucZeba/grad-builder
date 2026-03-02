@@ -30,6 +30,9 @@ void setupInventar() {
   allItems.add(new InventoryItem("Klupa", 30, "bench.obj", 0.3, 0.0, 1, 2));
   allItems.add(new InventoryItem("Bamboo kuća", 30, "Bambo_House.obj", 20, 0.0, 5, 3));
   allItems.add(new InventoryItem("Zgrada", 30, "building_04.obj", 70, -0.5, 8, 3));
+  allItems.add(new InventoryItem("Palma", 30, "palm.obj", 7, -5, 2, 5));
+  allItems.add(new InventoryItem("Rudnik", 30, "mine.obj", 12, -1, 4, 3));
+  allItems.add(new InventoryItem("Ulicno svjetlo", 30, "streetlamp.obj", 12, -1, 1, 2));
 }
 
 class InventoryItem {

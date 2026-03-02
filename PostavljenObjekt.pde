@@ -18,6 +18,9 @@ void setupModele() {
   modelCache.put("bench.obj", loadShape("bench.obj"));
   modelCache.put("building_04.obj", loadShape("building_04.obj"));
   modelCache.put("Bambo_House.obj", loadShape("Bambo_House.obj"));
+  modelCache.put("palm.obj", loadShape("palm.obj"));
+  modelCache.put("mine.obj", loadShape("mine.obj"));
+  modelCache.put("streetlamp.obj", loadShape("streetlamp.obj"));
   
   // Preview modeli — isti fileovi ali disableStyle
   for (String key : modelCache.keySet()) {
@@ -67,5 +70,9 @@ class PlacedObject {
     translate(0, -item.yOffset, 0);
     shape(model);
     popMatrix();
+    
+    /*if (item.naziv == "Ulicno svjetlo") {
+      pointLight(100, 100, 100, this.x, 2, this.z);
+    }*/
   }
 }
