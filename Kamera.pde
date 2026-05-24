@@ -71,3 +71,10 @@ void keyReleasedKamera() {
   if (key == 'a' || key == 'A') aPressed = false;
   if (key == 'd' || key == 'D') dPressed = false;
 }
+
+void resetCameraMovementKeys() {
+  wPressed = false;
+  sPressed = false;
+  aPressed = false;
+  dPressed = false;
+}

@@ -140,8 +140,18 @@ InventoryItem getSelectedItem() {
 // ============================================================
 
 void drawGradnja() {
+  if (novciciActive) {
+    drawNovcici();
+    return;
+  }
+  if (tetrisActive) {
+    drawTetris();
+    return;
+  }
+
   updateCamera();
   applyCamera();
+  if (buildMode == 1) checkSwingMinigameTrigger();
   drawSun(400, 7000, -10500);
   drawOblake();
   drawGround();
@@ -184,6 +194,66 @@ void drawGradnja() {
 void drawPlacedObjects() {
   for (PlacedObject obj : placedObjects) obj.draw();
 }
+
+void checkSwingMinigameTrigger() {
+  float triggerDistance = 180;
+  boolean nearSwing = false;
+  boolean nearMine = false;
+
+  for (PlacedObject obj : placedObjects) {
+    InventoryItem item = allItems.get(obj.typeIndex);
+    if (item == null) continue;
+
+    // ======================================================
+    // SWING (NOVČIĆI) TRIGGER
+    // ======================================================
+    if ("Swing.obj".equals(item.objFile) || "Ljuljacka".equals(item.naziv)) {
+      float distanceToSwing = dist(camX, camZ, obj.x, obj.z);
+
+      if (distanceToSwing <= triggerDistance) {
+        nearSwing = true;
+
+        if (novciciTriggerReady) {
+          novciciActive = true;
+          setupNovcici();
+          novciciTriggerReady = false;
+          return;
+        }
+      }
+    }
+
+    // ======================================================
+    // TETRIS TRIGGER (MINE)
+    // ======================================================
+    if ("mine.obj".equals(item.objFile) || "Mine".equals(item.naziv)) {
+      float distanceToMine = dist(camX, camZ, obj.x, obj.z);
+
+      if (distanceToMine <= triggerDistance) {
+        nearMine = true;
+
+        if (tetrisTriggerReady) {
+          tetrisActive = true;
+          setupTetris();
+          tetrisTriggerReady = false;
+          return;
+        }
+      }
+    }
+  }
+
+  // ======================================================
+  // RESET TRIGGERS AKO NISI BLIZU
+  // ======================================================
+  if (!nearSwing) {
+    novciciTriggerReady = true;
+  }
+
+  if (!nearMine) {
+    tetrisTriggerReady = true;
+  }
+}
+
+
 
 // ============================================================
 // PREVIEW — prikaz objekta prije postavljanja

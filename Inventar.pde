@@ -22,6 +22,7 @@ void setupInventar() {
   for (int i = 0; i < HOTBAR_SLOTS; i++) hotbarSlots[i] = -1;
   trashIcon = loadImage("trash.png");
   handIcon = loadImage("hand.png");
+  
   allItems.add(new InventoryItem("Auto crveni", 50, "Car.obj", 25, 0.0, 2, 0));
   allItems.add(new InventoryItem("Bonsai", 30, "Lowpoly_tree_sample.obj", 6, 0.74, 2, 5));
   allItems.add(new InventoryItem("Velika kuća", 30, "Cyprys_House.obj", 25, 0.0, 6, 3));
@@ -33,6 +34,50 @@ void setupInventar() {
   allItems.add(new InventoryItem("Palma", 30, "palm.obj", 7, -5, 2, 5));
   allItems.add(new InventoryItem("Rudnik", 30, "mine.obj", 12, -1, 4, 3));
   allItems.add(new InventoryItem("Ulicno svjetlo", 30, "streetlamp.obj", 12, -1, 1, 2));
+  
+  // Load thumbnail images for each item
+  for (int i = 0; i < allItems.size(); i++) {
+    InventoryItem item = allItems.get(i);
+    // Try to load thumbnail with obj filename but .png extension
+    String thumbnailName = item.objFile.substring(0, item.objFile.lastIndexOf('.')) + ".png";
+    try {
+      item.thumbnail = loadImage(thumbnailName);
+      if (item.thumbnail.width <= 0) {
+        item.thumbnail = null;
+      }
+    } catch (Exception e) {
+      item.thumbnail = null;
+    }
+    
+    // If no image found, create a placeholder
+    if (item.thumbnail == null) {
+      item.thumbnail = createPlaceholderImage(item.naziv);
+    }
+  }
+}
+
+// Helper function to create placeholder images with item name
+PImage createPlaceholderImage(String itemName) {
+  PImage img = createImage(100, 100, RGB);
+  img.loadPixels();
+  
+  // Fill with a gradient color based on item name hash
+  int hash = itemName.hashCode();
+  int hue = (hash & 0xFF) % 256;
+  int saturation = 180 + ((hash >> 8) & 0x3F);
+  int brightness = 150 + ((hash >> 16) & 0x7F);
+  
+  colorMode(HSB, 360, 255, 255);
+  color fillColor = color(hue * 1.41f, saturation, brightness);
+  color textColor = brightness > 200 ? color(0, 0, 0) : color(0, 0, 255);
+  colorMode(RGB, 255, 255, 255);
+  
+  for (int i = 0; i < img.pixels.length; i++) {
+    img.pixels[i] = fillColor;
+  }
+  img.updatePixels();
+  
+  return img;
 }
 
 class InventoryItem {
@@ -42,6 +87,7 @@ class InventoryItem {
   float skala, yOffset;
   int gridVelicina;
   int kategorija;
+  PImage thumbnail;
 
   InventoryItem(String naziv, int cijena, String objFile,
                 float skala, float yOffset, int gridVelicina, int kategorija) {
@@ -52,6 +98,7 @@ class InventoryItem {
     this.yOffset = yOffset;
     this.gridVelicina = gridVelicina;
     this.kategorija = kategorija;
+    this.thumbnail = null;
   }
 }
 
@@ -109,6 +156,32 @@ void drawInventoryHUD() {
       // Ikona pozadina
       fill(selected ? color(255, 200, 60, 50) : color(255, 255, 255, 25));
       rect(sx + 8, hy + 8, SLOT_W - 16, SLOT_H - 34, 5);
+
+      // Display thumbnail image if available
+      if (item.thumbnail != null) {
+        int imgX = sx + 8;
+        int imgY = hy + 8;
+        int imgW = SLOT_W - 16;
+        int imgH = SLOT_H - 34;
+        
+        // Calculate aspect ratio to fit image in the box
+        float imgAspect = float(item.thumbnail.width) / item.thumbnail.height;
+        float boxAspect = float(imgW) / imgH;
+        
+        float displayW, displayH;
+        if (imgAspect > boxAspect) {
+          displayW = imgW;
+          displayH = imgW / imgAspect;
+        } else {
+          displayH = imgH;
+          displayW = imgH * imgAspect;
+        }
+        
+        float offsetX = imgX + (imgW - displayW) / 2;
+        float offsetY = imgY + (imgH - displayH) / 2;
+        
+        image(item.thumbnail, offsetX, offsetY, displayW, displayH);
+      }
 
       // Naziv
       fill(selected ? color(255, 230, 100) : color(240, 240, 250));
@@ -321,11 +394,37 @@ void drawInventoryPanel() {
   }
 
   if (filtered.size() == 0) {
-    fill(150, 165, 185);
-    textAlign(CENTER, CENTER);
-    textSize(13);
-    text("Uskoro dolazi!", px + INV_W/2, contentY + contentH/2);
+    // upute za mini igrice
+    if (activeCategory == 7) {
+    
+      fill(60, 70, 90);
+      textAlign(LEFT, TOP);
+    
+      textSize(15);
+      text("Mini igre:", px + 25, py + INV_H/4);
+    
+      textSize(12);
+    
+      text("U pješačkom modu priđite postavljenom objektu Ljuljačka za pokretanje igrice hvatanja novčića", 
+           px + 25, py + INV_H/4 + 30);
+    
+      text("U pješačkom modu priđite postavljenom objektu Rudnik za pokretanje igrice tetrisa", 
+           px + 25, py + INV_H/4 + 50);
+    
+      text("Napomena:", 
+           px + 25, py + INV_H/4 + 80);
+    
+      text("• ENTER za izlaz iz mini igre", 
+           px + 25, py + INV_H/4 + 100);
+    }else{
+      fill(150, 165, 185);
+      textAlign(CENTER, CENTER);
+      textSize(13);
+      text("Uskoro dolazi!", px + INV_W/2, contentY + contentH/2);
+    }
   }
+  
+  
 
   for (int fi = 0; fi < filtered.size(); fi++) {
     int itemIdx = filtered.get(fi);
@@ -346,8 +445,34 @@ void drawInventoryPanel() {
     // Ikona zona
     fill(220, 228, 238, 130);
     rect(ix + 10, iy + 10, INV_ITEM_W - 20, INV_ITEM_H - 44, 6);
-
+    
     InventoryItem item = allItems.get(itemIdx);
+    
+    // Display thumbnail image if available
+    if (item.thumbnail != null) {
+      int imgX = ix + 10;
+      int imgY = iy + 10;
+      int imgW = INV_ITEM_W - 20;
+      int imgH = INV_ITEM_H - 44;
+      
+      // Calculate aspect ratio to fit image in the box
+      float imgAspect = float(item.thumbnail.width) / item.thumbnail.height;
+      float boxAspect = float(imgW) / imgH;
+      
+      float displayW, displayH;
+      if (imgAspect > boxAspect) {
+        displayW = imgW;
+        displayH = imgW / imgAspect;
+      } else {
+        displayH = imgH;
+        displayW = imgH * imgAspect;
+      }
+      
+      float offsetX = imgX + (imgW - displayW) / 2;
+      float offsetY = imgY + (imgH - displayH) / 2;
+      
+      image(item.thumbnail, offsetX, offsetY, displayW, displayH);
+    }
 
     // Naziv
     fill(55, 70, 95);
@@ -360,11 +485,13 @@ void drawInventoryPanel() {
     textSize(10);
     text(item.cijena + " $", ix + INV_ITEM_W/2, iy + INV_ITEM_H - 10);
   }
-
-  fill(155, 168, 185);
-  textAlign(CENTER, BOTTOM);
-  textSize(10);
-  text("Povuci objekt u slot dolje  •  klikni slot za odabir", px + INV_W/2, py + INV_H - 8);
+  
+  if(activeCategory != 7){
+    fill(155, 168, 185);
+    textAlign(CENTER, BOTTOM);
+    textSize(10);
+    text("Povuci objekt u slot dolje  •  klikni slot za odabir", px + INV_W/2, py + INV_H - 8);
+  }
 }
 
 // -------------------------------------------------------

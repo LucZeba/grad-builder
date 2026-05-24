@@ -4,6 +4,10 @@
 int gameState = 0;
 int coins = 1000;
 int buildMode = 0; // 0 = gradnja, 1 = pješački
+boolean novciciActive = false;
+boolean novciciTriggerReady = true;
+boolean tetrisActive = false;
+boolean tetrisTriggerReady = true;
 PImage buildIcon, walkIcon;
 
 void setup() {
@@ -16,6 +20,8 @@ void setup() {
   setupModele();
   setupUI();
   setupOblake();
+  setupNovcici();
+  setupTetris();
 }
 
 void draw() {
@@ -122,6 +128,27 @@ void mouseWheel(MouseEvent event) {
 
 void keyPressed() {
   if (gameState == 1) {
+    if (novciciActive) {
+      //if (keyCode == LEFT || keyCode == RIGHT) keyPressed2();
+      keyPressed2();
+      if (keyCode == ESC) {
+        novciciActive = false;
+        resetCameraMovementKeys();
+        loop();
+      }
+      return;
+    }
+    if (tetrisActive) {
+      //if (keyCode == UP || keyCode == LEFT || keyCode == RIGHT || key == ' ' || keyCode == DOWN) keyPressed3();
+      keyPressed3();
+      if (keyCode == ESC) {
+        tetrisActive = false;
+        resetCameraMovementKeys();
+        loop();
+      }
+      return;
+    }
+
     if (buildMode == 0) {
       if (key == 'e' || key == 'E') {
         inventoryOpen = !inventoryOpen;
@@ -139,5 +166,8 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  if (gameState == 1) keyReleasedKamera();
+  if (gameState == 1) {
+    if (novciciActive || tetrisActive) return;
+    keyReleasedKamera();
+  }
 }
