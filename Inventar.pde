@@ -22,18 +22,21 @@ void setupInventar() {
   for (int i = 0; i < HOTBAR_SLOTS; i++) hotbarSlots[i] = -1;
   trashIcon = loadImage("trash.png");
   handIcon = loadImage("hand.png");
-  
+  // (naziv, cijena filename, scale, y offset, grid velicina, kategorija)
   allItems.add(new InventoryItem("Auto crveni", 50, "Car.obj", 25, 0.0, 2, 0));
   allItems.add(new InventoryItem("Bonsai", 30, "Lowpoly_tree_sample.obj", 6, 0.74, 2, 5));
   allItems.add(new InventoryItem("Velika kuća", 30, "Cyprys_House.obj", 25, 0.0, 6, 3));
   allItems.add(new InventoryItem("Bor", 30, "CartoonTree.obj", 15, 0.0, 2, 5));
-  allItems.add(new InventoryItem("Ljuljacka", 20, "Swing.obj", 0.5, 0.0, 2, 4));
+  allItems.add(new InventoryItem("Ljuljacka", 0, "Swing.obj", 0.5, 0.0, 2, 7));
   allItems.add(new InventoryItem("Klupa", 30, "bench.obj", 0.3, 0.0, 1, 2));
   allItems.add(new InventoryItem("Bamboo kuća", 30, "Bambo_House.obj", 20, 0.0, 5, 3));
   allItems.add(new InventoryItem("Zgrada", 30, "building_04.obj", 70, -0.5, 8, 3));
   allItems.add(new InventoryItem("Palma", 30, "palm.obj", 7, -5, 2, 5));
-  allItems.add(new InventoryItem("Rudnik", 30, "mine.obj", 12, -1, 4, 3));
+  allItems.add(new InventoryItem("Rudnik", 0, "mine.obj", 12, -1, 4, 7));
   allItems.add(new InventoryItem("Ulicno svjetlo", 30, "streetlamp.obj", 12, -1, 1, 2));
+  allItems.add(new InventoryItem("Cesta ravna", 30, "road_straight.obj", 45, -0.1, 3, 1));
+  allItems.add(new InventoryItem("Cesta skretanje", 30, "road_corner.obj", 45, -0.1, 3, 1));
+  allItems.add(new InventoryItem("Cesta T raskrizje", 30, "road_tjunc.obj", 45, -0.1, 3, 1));
   
   // Load thumbnail images for each item
   for (int i = 0; i < allItems.size(); i++) {
@@ -309,7 +312,7 @@ void drawInventoryHUD() {
 
 // Kategorije
 final String[] KATEGORIJE = {
-  "Vozila", "Ceste", "Urbano", "Građevine", "Parkovi", "Priroda", "Jezera", "Mini igre"
+  "Vozila", "Ceste", "Urbano", "Građevine", "Parkovi", "Priroda", "Jezera", "Mini igre", "Teren"
 };
 int activeCategory = 0;
 
@@ -394,35 +397,12 @@ void drawInventoryPanel() {
   }
 
   if (filtered.size() == 0) {
-    // upute za mini igrice
-    if (activeCategory == 7) {
-    
-      fill(60, 70, 90);
-      textAlign(LEFT, TOP);
-    
-      textSize(15);
-      text("Mini igre:", px + 25, py + INV_H/4);
-    
-      textSize(12);
-    
-      text("U pješačkom modu priđite postavljenom objektu Ljuljačka za pokretanje igrice hvatanja novčića", 
-           px + 25, py + INV_H/4 + 30);
-    
-      text("U pješačkom modu priđite postavljenom objektu Rudnik za pokretanje igrice tetrisa", 
-           px + 25, py + INV_H/4 + 50);
-    
-      text("Napomena:", 
-           px + 25, py + INV_H/4 + 80);
-    
-      text("• ENTER za izlaz iz mini igre", 
-           px + 25, py + INV_H/4 + 100);
-    }else{
-      fill(150, 165, 185);
-      textAlign(CENTER, CENTER);
-      textSize(13);
-      text("Uskoro dolazi!", px + INV_W/2, contentY + contentH/2);
-    }
+    fill(150, 165, 185);
+    textAlign(CENTER, CENTER);
+    textSize(13);
+    text("Uskoro dolazi!", px + INV_W/2, contentY + contentH/2);
   }
+ 
   
   
 
