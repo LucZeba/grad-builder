@@ -21,6 +21,9 @@ void setupModele() {
   modelCache.put("palm.obj", loadShape("palm.obj"));
   modelCache.put("mine.obj", loadShape("mine.obj"));
   modelCache.put("streetlamp.obj", loadShape("streetlamp.obj"));
+  modelCache.put("road_straight.obj", loadShape("road_straight.obj"));
+  modelCache.put("road_corner.obj", loadShape("road_corner.obj"));
+  modelCache.put("road_tjunc.obj", loadShape("road_tjunc.obj"));
   
   // Preview modeli — isti fileovi ali disableStyle
   for (String key : modelCache.keySet()) {
