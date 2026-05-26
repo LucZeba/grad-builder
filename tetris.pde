@@ -10,7 +10,7 @@ int[][] grid = new int[ROWS][COLS];
 Tetromino current;
 Tetromino nextPiece;
 int coins3 = 0;
-int dropInterval = 800;
+int dropInterval;
 int lastDropTime;
 boolean gameOver = false;
 
@@ -63,36 +63,52 @@ class Tetromino {
 }
 
 void setupTetris() {
-  size(1200, 800);
-  backgroundImg2 = loadImage("mineImg.png");
-  backgroundImg2.resize(width, height);
-  
-  smooth();
+  // Samo prvi put
+  if (colors == null) {
+    backgroundImg2 = loadImage("mineImg.png");
 
-  colors = new color[] {
-    color(0),
-    color(0, 240, 240),
-    color(0, 0, 240),
-    color(240, 160, 0),
-    color(240, 240, 0),
-    color(0, 240, 0),
-    color(160, 0, 240),
-    color(240, 0, 0)
-  };
+    if (backgroundImg2 == null) {
+      println("ERROR: mineImg.png not found!");
+    } else {
+      backgroundImg2.resize(width, height);
+    }
 
-  gridX = width / 2 - COLS * SIZE / 2;
-  gridY = height / 2 - ROWS * SIZE / 2;
+    colors = new color[] {
+      color(0),
+      color(0, 240, 240),
+      color(0, 0, 240),
+      color(240, 160, 0),
+      color(240, 240, 0),
+      color(0, 240, 0),
+      color(160, 0, 240),
+      color(240, 0, 0)
+    };
 
+    gridX = width / 2 - COLS * SIZE / 2;
+    gridY = height / 2 - ROWS * SIZE / 2;
+  }
+
+  // Reset game state each time tetris starts
   grid = new int[ROWS][COLS];
   coins3 = 0;
   gameOver = false;
   nextPiece = new Tetromino(int(random(7)));
   spawnPiece();
+  dropInterval = 800;
   lastDropTime = millis();
 }
 
 void drawTetris() {
-  image(backgroundImg2, 0, 0);
+  // Reset graphics context from 3D to 2D
+  resetMatrix();
+  camera();
+  perspective();
+  
+  if (backgroundImg2 != null) {
+    image(backgroundImg2, 0, 0);
+  } else {
+    background(30);
+  }
 
   drawGrid();
   drawInfo();

@@ -98,6 +98,11 @@ void setupNovcici(){
 }
 
 void drawNovcici(){
+  // Reset graphics context from 3D to 2D
+  resetMatrix();
+  camera();
+  perspective();
+  
   image(backgroundImg, 0, 0);
     
   if (gameOverN) {
