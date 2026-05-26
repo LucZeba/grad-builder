@@ -178,6 +178,12 @@ void drawGradnja() {
           float centerX = lastGridX * GRID_SIZE + (item.gridVelicina * GRID_SIZE) / 2.0;
           float centerZ = lastGridZ * GRID_SIZE + (item.gridVelicina * GRID_SIZE) / 2.0;
           previewRotation = atan2(worldMouse[0] - centerX, worldMouse[1] - centerZ);
+          if (item.kategorija == 1 || item.kategorija == 8) {                // ako je item iz kategorije "ceste" ili "teren", modificirana je rotacija tih objekata
+            if (previewRotation > HALF_PI) previewRotation = HALF_PI;
+            else if (previewRotation < HALF_PI && previewRotation > 0) previewRotation = 0;
+            else if (previewRotation < 0 && previewRotation > -HALF_PI) previewRotation = -HALF_PI;
+            else previewRotation = -PI;
+          }
         }
       }
     }
