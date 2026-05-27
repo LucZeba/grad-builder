@@ -25,6 +25,7 @@ void setup() {
 }
 
 void draw() {
+  lights();
   background(135, 206, 235);
   switch(gameState) {
     case 0: drawMenu(); break;
