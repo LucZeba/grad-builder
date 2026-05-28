@@ -98,10 +98,8 @@ void setupNovcici(){
 }
 
 void drawNovcici(){
-  // Reset graphics context from 3D to 2D
-  resetMatrix();
-  camera();
-  perspective();
+  //resetMatrix();
+  //camera();
   
   image(backgroundImg, 0, 0);
     
@@ -121,7 +119,7 @@ void drawNovcici(){
   image(basketImg, basketX + shakeX, basketY + shakeY);
   
   
-  // spawn random objekata
+  // stvaranje novog objekata
   if (random(1) < 0.03) {
     spawnObject();
   }
@@ -205,7 +203,7 @@ void drawNovcici(){
 
   if (explosion) {
     fill(255, 0, 0, 80);
-    rect(0, 0, width, height);
+    //rect(0, 0, width, height);
   
     explosionTimer--;
   
@@ -243,12 +241,15 @@ void spawnObject() {
 
 void gameOver() {
 
+  //fill(255, 0, 0, 80);
+  //rect(0, 0, width, height);
+
   fill(255, 0, 0);
   textSize(60);
   textAlign(CENTER, CENTER);
   text("GAME OVER", width/2, height/2 - 40);
 
-  fill(255);
+  fill(0);
   textSize(20);
   text("Pritisni ENTER za povratak", width/2, height/2 + 30);
 
@@ -257,7 +258,7 @@ void gameOver() {
   
   gameOverN = true;
   
-  resetCameraMovementKeys();
+  //resetCameraMovementKeys();
   
 }
 
