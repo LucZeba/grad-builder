@@ -9,6 +9,7 @@ boolean novciciTriggerReady = true;
 boolean tetrisActive = false;
 boolean tetrisTriggerReady = true;
 PImage buildIcon, walkIcon;
+SoundFile bgMusic, openInventory, closeInventory, toggleMode, placementSound, errorSound;
 
 void setup() {
   size(1200, 800, P3D);
@@ -22,6 +23,14 @@ void setup() {
   setupOblake();
   setupNovcici();
   setupTetris();
+  bgMusic = new SoundFile(this, "elevator_music.mp3");
+  openInventory = new SoundFile(this, "inventory_open.mp3");
+  closeInventory = new SoundFile(this, "inventory_close.mp3");
+  toggleMode = new SoundFile(this, "toggle_mode.mp3");
+  placementSound = new SoundFile(this, "placement.mp3");
+  errorSound = new SoundFile(this, "error.mp3");
+  bgMusic.loop();
+  bgMusic.amp(0.05);
 }
 
 void draw() {
@@ -51,6 +60,10 @@ void mousePressed() {
     int modeBtnY = 62;
     if (mouseX >= modeBtnX && mouseX <= modeBtnX + modeBtnSize &&
         mouseY >= modeBtnY && mouseY <= modeBtnY + modeBtnSize) {
+      if (!toggleMode.isPlaying()) {
+        toggleMode.play();
+        toggleMode.amp(0.05);
+      }
       if (buildMode == 0) {
         // Prebaci u pješački
         buildMode = 1;
@@ -153,7 +166,17 @@ void keyPressed() {
     if (buildMode == 0) {
       if (key == 'e' || key == 'E') {
         inventoryOpen = !inventoryOpen;
-        if (inventoryOpen) rightMouseHeld = false;
+        if (inventoryOpen) {
+          rightMouseHeld = false;
+          if (!openInventory.isPlaying()) {
+            openInventory.play();
+            openInventory.amp(0.05);
+          }
+        }
+        if (!closeInventory.isPlaying()) {
+          closeInventory.play();
+          closeInventory.amp(0.05);
+        }
         return;
       }
       if (keyCode == ESC) {
