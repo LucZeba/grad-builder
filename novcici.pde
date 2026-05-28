@@ -170,6 +170,7 @@ void drawNovcici(){
           explosion = true;
           explosionTimer = 20;
           boomSound.play();
+          boomSound.amp(0.05);
           objects.remove(i);
       }
     }
