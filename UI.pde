@@ -184,7 +184,7 @@ void drawHUD() {
     fill(235, 238, 242, 200);
     stroke(195, 205, 218, 140);
     strokeWeight(1);
-    rectMode(CENTER);
+    //rectMode(CENTER);
     rect(width/2, height - 90, 220, 50, 12);
   
     fill(0);

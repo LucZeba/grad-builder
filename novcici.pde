@@ -100,6 +100,7 @@ void setupNovcici(){
 void drawNovcici(){
   //resetMatrix();
   //camera();
+  noLights();
   
   image(backgroundImg, 0, 0);
     
@@ -203,7 +204,8 @@ void drawNovcici(){
 
   if (explosion) {
     fill(255, 0, 0, 80);
-    //rect(0, 0, width, height);
+    //rectMode(CORNER); 
+    rect(0, 0, width, height);
   
     explosionTimer--;
   

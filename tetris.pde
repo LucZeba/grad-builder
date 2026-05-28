@@ -103,6 +103,7 @@ void drawTetris() {
   resetMatrix();
   camera();
   perspective();
+  noLights();
   
   if (backgroundImg2 != null) {
     image(backgroundImg2, 0, 0);
@@ -130,6 +131,7 @@ void drawTetris() {
 void drawGrid() {
   fill(120, 200);
   noStroke();
+  //rectMode(CORNER); 
   rect(gridX - 8, gridY - 8, COLS * SIZE + 16, ROWS * SIZE + 16, 18);
 
   for (int r = 0; r < ROWS; r++) {
