@@ -62,10 +62,14 @@ boolean jeCestaNaPolju(int gx, int gz) {
 }
 
 // Zauzmi blok size×size
-void zauzimiGrid(int gx, int gz, int size) {
+void zauzmiGrid(int gx, int gz, int size) {
   for (int dx = 0; dx < size; dx++)
     for (int dz = 0; dz < size; dz++)
       zauzetiGridovi.add(gridKey(gx + dx, gz + dz));
+  if (!placementSound.isPlaying()) {
+            placementSound.play();
+            placementSound.amp(0.05);
+  }
 }
 
 // Oslobodi blok size×size
@@ -378,10 +382,16 @@ void mouseGradnja() {
     boolean ok = (item.kategorija == 0)
                ? jeslobodnoZaVozilo(gx, gz, item.gridVelicina)
                : jeslobodno(gx, gz, item.gridVelicina);
-    if (!ok) return;
+    if (!ok) {
+      if (!errorSound.isPlaying()) {
+          errorSound.play();
+          errorSound.amp(0.1);
+        }
+      return;
+    }
 
     oslobodiGrid(obj.gridX, obj.gridZ, item.gridVelicina);
-    zauzimiGrid(gx, gz, item.gridVelicina);
+    zauzmiGrid(gx, gz, item.gridVelicina);
     obj.x = gx * GRID_SIZE + (item.gridVelicina * GRID_SIZE) / 2.0;
     obj.z = gz * GRID_SIZE + (item.gridVelicina * GRID_SIZE) / 2.0;
     obj.gridX = gx;
@@ -420,11 +430,16 @@ void mouseGradnja() {
   boolean ok = (item.kategorija == 0)
              ? jeslobodnoZaVozilo(gx, gz, item.gridVelicina)
              : jeslobodno(gx, gz, item.gridVelicina);
-  if (!ok) return;
-
+  if (!ok) {
+    if (!errorSound.isPlaying()) {
+        errorSound.play();
+        errorSound.amp(0.1);
+      }
+    return;
+  }
   if (coins >= item.cijena) {
     coins -= item.cijena;
-    zauzimiGrid(gx, gz, item.gridVelicina);
+    zauzmiGrid(gx, gz, item.gridVelicina);
     float worldX = gx * GRID_SIZE + (item.gridVelicina * GRID_SIZE) / 2.0;
     float worldZ = gz * GRID_SIZE + (item.gridVelicina * GRID_SIZE) / 2.0;
     PlacedObject newObj = new PlacedObject(allItemsIndex, worldX, worldZ);
