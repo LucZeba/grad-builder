@@ -24,6 +24,13 @@ void setupModele() {
   modelCache.put("road_straight.obj", loadShape("road_straight.obj"));
   modelCache.put("road_corner.obj", loadShape("road_corner.obj"));
   modelCache.put("road_tjunc.obj", loadShape("road_tjunc.obj"));
+  modelCache.put("fire_hydrant.obj", loadShape("fire_hydrant.obj"));
+  modelCache.put("semafor.obj", loadShape("semafor.obj"));
+  modelCache.put("woodfence.obj", loadShape("woodfence.obj"));
+  modelCache.put("hospital.obj", loadShape("hospital.obj"));
+  modelCache.put("pine_2.obj", loadShape("pine_2.obj"));
+  modelCache.put("road_grass.obj", loadShape("road_grass.obj"));
+  modelCache.put("slide.obj", loadShape("slide.obj"));
   
   // Preview modeli — isti fileovi ali disableStyle
   for (String key : modelCache.keySet()) {
