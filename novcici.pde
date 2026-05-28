@@ -132,7 +132,7 @@ void drawNovcici(){
     o.update();
     o.show();
     
-    if(o.type != 1){
+    if(o.type != 1){ //nije bomba
       boolean insideBasket = o.x > basketX && o.x < basketX + basketW - 70 &&
         o.y > basketY - 30 && o.y < basketY + 10;
 
@@ -170,10 +170,29 @@ void drawNovcici(){
           explosion = true;
           explosionTimer = 20;
           boomSound.play();
-          boomSound.amp(0.05);
           objects.remove(i);
+      }else if(o.x > basketX + basketW - 60 && o.x < basketX + basketW && 
+        o.y > basketY - 30 && o.y < basketY + 10){
+        
+        o.speed = -abs(o.speed) * 0.7;
+        o.vx = random(-2, 2);
+        o.rotationSpeed = random(-0.25, 0.25);
+        o.bounced = true;
+        o.y = basketY - 72;
+        
+      }else if(o.x > basketX - 60 && o.x < basketX && 
+        o.y > basketY - 30 && o.y < basketY + 10){
+        
+        o.speed = -abs(o.speed) * 0.7;
+        o.vx = random(-2, 2);
+        o.rotationSpeed = random(-0.25, 0.25);
+        o.bounced = true;
+        o.y = basketY - 72;
+        
       }
     }
+    
+
 
     // ukloni ako padne van ekrana
     if (o.y > height) {

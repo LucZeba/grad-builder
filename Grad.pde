@@ -8,6 +8,8 @@ boolean novciciActive = false;
 boolean novciciTriggerReady = true;
 boolean tetrisActive = false;
 boolean tetrisTriggerReady = true;
+boolean canStartNovcici = false;
+boolean canStartTetris = false;
 PImage buildIcon, walkIcon;
 SoundFile bgMusic, openInventory, closeInventory, toggleMode, placementSound, errorSound;
 
@@ -142,6 +144,21 @@ void mouseWheel(MouseEvent event) {
 
 void keyPressed() {
   if (gameState == 1) {
+    //kad se približi rudniku/ljuljačkoj za početak igre
+    if (key == 'p' || key == 'P') {
+      if (canStartNovcici && novciciTriggerReady) {
+        novciciActive = true;
+        setupNovcici();
+        novciciTriggerReady = false;
+      }
+    
+      if (canStartTetris && tetrisTriggerReady) {
+        tetrisActive = true;
+        setupTetris();
+        tetrisTriggerReady = false;
+      }
+    }
+    
     if (novciciActive) {
       //if (keyCode == LEFT || keyCode == RIGHT) keyPressed2();
       keyPressed2();

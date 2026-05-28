@@ -179,6 +179,20 @@ void drawHUD() {
   textSize(17);
   text("" + coins, 56, 33);
 
+  //ispis za pokretanje tetrisa i novcica
+  if (canStartTetris || canStartNovcici) {
+    fill(235, 238, 242, 200);
+    stroke(195, 205, 218, 140);
+    strokeWeight(1);
+    rectMode(CENTER);
+    rect(width/2, height - 90, 220, 50, 12);
+  
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("P - Pokreni igricu", width/2, height - 90);
+  }
+
   // Mode gumb — ispod novčića
   int modeBtnSize = 40;
   int modeBtnX = 14;

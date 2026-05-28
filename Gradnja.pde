@@ -248,13 +248,7 @@ void checkSwingMinigameTrigger() {
 
       if (distanceToSwing <= triggerDistance) {
         nearSwing = true;
-
-        if (novciciTriggerReady) {
-          novciciActive = true;
-          setupNovcici();
-          novciciTriggerReady = false;
-          return;
-        }
+        canStartNovcici = true;
       }
     }
 
@@ -266,13 +260,7 @@ void checkSwingMinigameTrigger() {
 
       if (distanceToMine <= triggerDistance) {
         nearMine = true;
-
-        if (tetrisTriggerReady) {
-          tetrisActive = true;
-          setupTetris();
-          tetrisTriggerReady = false;
-          return;
-        }
+        canStartTetris = true;  
       }
     }
   }
@@ -282,10 +270,12 @@ void checkSwingMinigameTrigger() {
   // ======================================================
   if (!nearSwing) {
     novciciTriggerReady = true;
+    canStartNovcici = false;
   }
 
   if (!nearMine) {
     tetrisTriggerReady = true;
+    canStartTetris = false;
   }
 }
 
