@@ -17,7 +17,7 @@ int     draggingFromInventory = -1;
 int     draggingFromHotbar    = -1;
 int     dragMouseX, dragMouseY;
 boolean isDragging = false;
-
+SoundFile pop1, pop2;
 void setupInventar() {
   for (int i = 0; i < HOTBAR_SLOTS; i++) hotbarSlots[i] = -1;
   trashIcon = loadImage("trash.png");
@@ -44,6 +44,9 @@ void setupInventar() {
   allItems.add(new InventoryItem("Bor_2", 30, "pine_2.obj", 15, -0.1, 1, 5));
   allItems.add(new InventoryItem("Cesta trava", 30, "road_grass.obj", 60, -0.05, 3, 8));
   allItems.add(new InventoryItem("Tobogan", 30, "slide.obj", 4, -0.1, 2, 4));
+  
+  pop1 = new SoundFile(this, "pop1.mp3");
+  pop2 = new SoundFile(this, "pop2.mp3");
   
   // Load thumbnail images for each item
   for (int i = 0; i < allItems.size(); i++) {
@@ -617,6 +620,7 @@ void inventoryMouseReleased(int mx, int my) {
   if (!isDragging) return;
 
   // Pusti na hotbar slot
+  
   int hx = hotbarX();
   int hy = hotbarY();
   for (int i = 0; i < HOTBAR_SLOTS; i++) {
@@ -632,7 +636,10 @@ void inventoryMouseReleased(int mx, int my) {
       break;
     }
   }
-
+  if (!pop2.isPlaying()) {
+    pop2.play();
+    pop2.amp(0.05);
+  }
   isDragging            = false;
   draggingFromInventory = -1;
   draggingFromHotbar    = -1;
