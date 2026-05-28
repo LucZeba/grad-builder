@@ -34,9 +34,16 @@ void setupInventar() {
   allItems.add(new InventoryItem("Palma", 30, "palm.obj", 7, -5, 2, 5));
   allItems.add(new InventoryItem("Rudnik", 0, "mine.obj", 12, -1, 4, 7));
   allItems.add(new InventoryItem("Ulicno svjetlo", 30, "streetlamp.obj", 12, -1, 1, 2));
-  allItems.add(new InventoryItem("Cesta ravna", 30, "road_straight.obj", 45, -0.1, 3, 1));
-  allItems.add(new InventoryItem("Cesta skretanje", 30, "road_corner.obj", 45, -0.1, 3, 1));
-  allItems.add(new InventoryItem("Cesta T raskrizje", 30, "road_tjunc.obj", 45, -0.1, 3, 1));
+  allItems.add(new InventoryItem("Cesta ravna", 30, "road_straight.obj", 60, -0.1, 3, 1));
+  allItems.add(new InventoryItem("Cesta skretanje", 30, "road_corner.obj", 60, -0.1, 3, 1));
+  allItems.add(new InventoryItem("Cesta T raskrizje", 30, "road_tjunc.obj", 60, -0.1, 3, 1));
+  allItems.add(new InventoryItem("Hidrant", 30, "fire_hydrant.obj", 5, -0.1, 1, 2));
+  allItems.add(new InventoryItem("Drvena ograda", 30, "woodfence.obj", 14, -0.1, 1, 4));
+  allItems.add(new InventoryItem("Semafor", 30, "semafor.obj", 14, -0.1, 1, 2));
+  allItems.add(new InventoryItem("Bolnica", 30, "hospital.obj", 7, -0.1, 1, 3));
+  allItems.add(new InventoryItem("Bor_2", 30, "pine_2.obj", 15, -0.1, 2, 5));
+  allItems.add(new InventoryItem("Cesta trava", 30, "road_grass.obj", 60, -0.1, 3, 1));
+  allItems.add(new InventoryItem("Tobogan", 30, "slide.obj", 4, -0.1, 3, 4));
   
   // Load thumbnail images for each item
   for (int i = 0; i < allItems.size(); i++) {
