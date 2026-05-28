@@ -144,21 +144,7 @@ void mouseWheel(MouseEvent event) {
 
 void keyPressed() {
   if (gameState == 1) {
-    //kad se približi rudniku/ljuljačkoj za početak igre
-    if (key == 'p' || key == 'P') {
-      if (canStartNovcici && novciciTriggerReady) {
-        novciciActive = true;
-        setupNovcici();
-        novciciTriggerReady = false;
-      }
-    
-      if (canStartTetris && tetrisTriggerReady) {
-        tetrisActive = true;
-        setupTetris();
-        tetrisTriggerReady = false;
-      }
-    }
-    
+      
     if (novciciActive) {
       //if (keyCode == LEFT || keyCode == RIGHT) keyPressed2();
       keyPressed2();
@@ -201,7 +187,22 @@ void keyPressed() {
         previewRotation = 0;
         key = 0;
       }
-    }
+    }else{
+      //kad se približi rudniku/ljuljačkoj za početak igre
+      if (key == 'p' || key == 'P') {
+        if (canStartNovcici && novciciTriggerReady) {
+          novciciActive = true;
+          setupNovcici();
+          novciciTriggerReady = false;
+        }
+      
+        if (canStartTetris && tetrisTriggerReady) {
+          tetrisActive = true;
+          setupTetris();
+          tetrisTriggerReady = false;
+        }
+      }  
+    }  
     if (!inventoryOpen) keyPressedKamera();
   }
 }
