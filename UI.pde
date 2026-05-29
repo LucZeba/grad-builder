@@ -108,10 +108,11 @@ void drawHowToPlay() {
   fill(120, 135, 155);
   textAlign(LEFT, TOP);
   textSize(12);
-  text("Povuci objekte iz inventara (E) u slotove dolje.", tx, ty); ty += lh;
-  text("Odaberi slot i klikni na tlo da postaviš objekt.", tx, ty); ty += lh;
-  text("Klikni na postavljeni objekt da ga premjestiš.",   tx, ty);
-
+  text("Povuci objekte iz inventara (E) u slotove dolje.", tx, ty); ty += 20;
+  text("Odaberi slot i klikni na tlo da postaviš objekt.", tx, ty); ty += 20;
+  text("Klikni na postavljeni objekt da ga premjestiš.",   tx, ty); ty += 20;
+  text("Novac zarađuj igrajući miniigre.", tx, ty); ty += 20;
+  text("Približi se objektima (ljuljačka, bolnica ili rudnik) u pješačkom modu i pritisni P.", tx, ty); 
   int btnW = 120, btnH = 36;
   int btnX = boxX + 24;
   int btnY = boxY + boxH - btnH - 16;
