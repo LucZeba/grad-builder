@@ -10,6 +10,9 @@ boolean tetrisActive = false;
 boolean tetrisTriggerReady = true;
 boolean canStartNovcici = false;
 boolean canStartTetris = false;
+boolean arkanoidActive = false;
+boolean arkanoidTriggerReady = true;
+boolean canStartArkanoid = false;
 PImage buildIcon, walkIcon;
 SoundFile bgMusic, openInventory, closeInventory, toggleMode, placementSound, errorSound;
 
@@ -165,6 +168,15 @@ void keyPressed() {
       }
       return;
     }
+    if (arkanoidActive) {
+      keyPressed4();
+      if (keyCode == ESC) {
+        arkanoidActive = false;
+        resetCameraMovementKeys();
+        loop();
+      }
+      return;
+    }
 
     if (buildMode == 0) {
       if (key == 'e' || key == 'E') {
@@ -200,6 +212,12 @@ void keyPressed() {
           tetrisActive = true;
           setupTetris();
           tetrisTriggerReady = false;
+        }
+        
+        if (canStartArkanoid && arkanoidTriggerReady) {
+          arkanoidActive = true;
+          setupArkanoid();
+          arkanoidTriggerReady = false;
         }
       }  
     }  

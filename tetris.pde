@@ -371,7 +371,7 @@ void gameOver2() {
 
   fill(255);
   textSize(20);
-  text("Pritisni ENTER za povratak.", width/2, height/2 + 30);
+  text("Pritisnite ENTER za povratak.", width/2, height/2 + 30);
 
   resetCameraMovementKeys();
 }

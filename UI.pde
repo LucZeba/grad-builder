@@ -6,7 +6,7 @@ PImage menuBg, dolar;
 boolean showHowToPlay = false;
 
 void setupUI() {
-  menuBg = loadImage("city.png");
+  menuBg = loadImage("cityImg.png");
   dolar = loadImage("dolar.png");
 }
 
@@ -181,7 +181,7 @@ void drawHUD() {
 
   //ispis za pokretanje tetrisa i novcica
   if(buildMode == 1){
-    if (canStartTetris || canStartNovcici) {
+    if (canStartTetris || canStartNovcici || canStartArkanoid) {
       fill(235, 238, 242, 200);
       stroke(195, 205, 218, 140);
       strokeWeight(1);

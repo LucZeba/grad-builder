@@ -178,6 +178,10 @@ void drawGradnja() {
     drawTetris();
     return;
   }
+  if (arkanoidActive) {
+    drawArkanoid();
+    return;
+  }
 
   updateCamera();
   applyCamera();
@@ -235,6 +239,7 @@ void checkSwingMinigameTrigger() {
   float triggerDistance = 180;
   boolean nearSwing = false;
   boolean nearMine = false;
+  boolean nearBolnica = false;
 
   for (PlacedObject obj : placedObjects) {
     InventoryItem item = allItems.get(obj.typeIndex);
@@ -263,6 +268,17 @@ void checkSwingMinigameTrigger() {
         canStartTetris = true;  
       }
     }
+    // ======================================================
+    // ARKANOID TRIGGER ()
+    // ======================================================
+    if ("hospital.obj".equals(item.objFile) || "Bolnica".equals(item.naziv)) {
+      float distanceToBolnica = dist(camX, camZ, obj.x, obj.z);
+
+      if (distanceToBolnica <= triggerDistance+350) {
+        nearBolnica = true;
+        canStartArkanoid = true;  
+      }
+    }
   }
 
   // ======================================================
@@ -276,6 +292,11 @@ void checkSwingMinigameTrigger() {
   if (!nearMine) {
     tetrisTriggerReady = true;
     canStartTetris = false;
+  }
+  
+  if (!nearBolnica) {
+    arkanoidTriggerReady = true;
+    canStartArkanoid = false;
   }
 }
 

@@ -253,7 +253,7 @@ void gameOver() {
 
   fill(0);
   textSize(20);
-  text("Pritisni ENTER za povratak", width/2, height/2 + 30);
+  text("Pritisnite ENTER za povratak", width/2, height/2 + 30);
 
   explosion = false;
   explosionTimer = 0;
