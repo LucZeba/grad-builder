@@ -21,15 +21,23 @@ boolean gameOver4;
 boolean gameWin;
 
 void setupArkanoid() {
-  size(1200, 800);
+  //size(1200, 800);
   backgroundImg3 = loadImage("bolnicaImg.png");
-  backgroundImg3.resize(width, height);
+  if (backgroundImg3 == null) {
+    println("ERROR: bolnicaImg.png not found!");
+  } else {
+    backgroundImg3.resize(width, height);
+  }
   resetGame();
 }
 
 void drawArkanoid() {
   noLights();
-  image(backgroundImg3, 0, 0);
+  if (backgroundImg3 != null) {
+    image(backgroundImg3, 0, 0);
+  } else {
+    background(30);
+  }
   
   fill(240);
   textSize(16);
